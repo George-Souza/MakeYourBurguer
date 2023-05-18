@@ -14,7 +14,7 @@ export default {
   },
   data() {
       return {
-        logo_src: '/imagens/logo.png',
+        logo_src: '/img/logo.png',
         app_name: 'My App'
       }
     }
