@@ -26,8 +26,9 @@
 
                 <div class="input-container" id="opcionais-container">
                     <label id="opcionais-title" for="opcionais">Selecione os opcionais: </label>
-                    <div class="checkbox-container">
-                        <input type="checkbox" name="opcionais" v-model="opcionais">
+                    <div class="checkbox-container" v-for="opcional in opcionaisData" :key="opcional.id">
+                        <input type="checkbox" name="opcionais" v-model="opcionais" :value="opcional.tipo">
+                            <span>{{ opcional.tipo }}</span>
                     </div>
                 </div>
 
