@@ -2,7 +2,7 @@
     <div>
         <p>Componente de mensagem</p>
         <div>
-            <form id="burguer-form">
+            <form id="burguer-form" @submit="createBurguer">
                 <div class="input-container">
                     <label for="nome">Nome do cliente: </label>
                     <input type="text" id="nome" v-model="nome" placeholder="Digite o seu nome">
@@ -24,11 +24,11 @@
                     </select>
                 </div>
 
-                <div class="input-container" id="opcionais-container">
-                    <label id="opcionais-title" for="opcionais">Selecione os opcionais: </label>
+                <div id="opcionais-container" class="input-container">
+                    <label id="opcionais-title" for="opcionais">Selecione os opcionais:</label>
                     <div class="checkbox-container" v-for="opcional in opcionaisData" :key="opcional.id">
-                        <input type="checkbox" name="opcionais" v-model="opcionais" :value="opcional.tipo">
-                            <span>{{ opcional.tipo }}</span>
+                        <input type="checkbox" name="opcionais" v-model="opcionais"  :value="opcional.tipo">
+                        <span>{{ opcional.tipo }}</span>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                 nome: null,
                 pao: null,
                 carnes: null,
-                opcionais: null,
+                opcionais: [],
                 status: "Solicitado",
                 msg: null
             }
@@ -64,6 +64,33 @@
                 this.paes = data.paes;
                 this.carnes = data.carnes;
                 this.opcionaisData = data.opcionais;
+            },
+            async createBurguer(e) {
+                e.preventDefault();
+
+                const data = {
+                    nome: this.nome,
+                    pao: this.pao,
+                    carne: this.carne,
+                    opcionais: Array.from(this.opcionais),
+                    status: "Solicitado"
+                }
+
+                const dataJson = JSON.stringify(data);
+
+                const req = await fetch('http://localhost:3000/burgers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: dataJson
+                });
+
+
+                this.nome = "";
+                this.carne = "";
+                this.pao = "";
+                this.opcionais = [];
             }
         },
         mounted() {
